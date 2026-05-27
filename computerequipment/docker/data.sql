@@ -38,7 +38,7 @@ CREATE TABLE `Tip` (
 -- Ubacivanje podataka u tabelu Tip
 INSERT INTO Tip (Naziv) VALUES
                             ('Laptop računar'),
-                            ('Dekstop računar'),
+                            ('Desktop računar'),
                             ('Procesor'),
                             ('RAM Memorija'),
                             ('Periferija');

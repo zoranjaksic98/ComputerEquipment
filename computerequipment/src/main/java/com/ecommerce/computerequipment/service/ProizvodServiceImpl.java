@@ -1,8 +1,9 @@
 package com.ecommerce.computerequipment.service;
 
-import java.util.List;
-import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.ecommerce.computerequipment.entity.Proizvod;
@@ -30,14 +31,24 @@ public class ProizvodServiceImpl implements ProizvodService{
 	}
 
 	@Override
-	public List<ProizvodResponse> getAll() {
+	public Page<ProizvodResponse> getAll(Pageable pageable, Integer markaId, Integer tipId, String kljucnaRec) {
 		System.out.println("Preuzimanje svih proizvoda.");
-		List<Proizvod> proizvodi = proizvodRepository.findAll();
-		List<ProizvodResponse> proizvodiResponse = proizvodi.stream()
-				.map(this::convertToProizvodResponse)
-				.collect(Collectors.toList());
+		Specification<Proizvod> spec = (root, query, criteriaBuilder) -> criteriaBuilder.conjunction();
+		if(markaId != null) 
+		{
+			spec = spec.and((root, query, criteriaBuilder)->criteriaBuilder.equal(root.get("marka").get("id"), markaId));
+		}
+		if(tipId != null) 
+		{
+			spec = spec.and((root, query, criteriaBuilder)->criteriaBuilder.equal(root.get("tip").get("id"), tipId));
+		}
+		if(kljucnaRec != null && !kljucnaRec.isEmpty())
+		{
+			spec = spec.and((root, query, criteriaBuilder)->criteriaBuilder.like(root.get("naziv"), "%" + kljucnaRec + "%"));
+		}
 		System.out.println("Svi proizvodi su preuzeti.");
-		return proizvodiResponse;
+		
+		return proizvodRepository.findAll(spec, pageable).map(this::convertToProizvodResponse);
 	}
 	
 	public ProizvodResponse convertToProizvodResponse(Proizvod proizvod) 
