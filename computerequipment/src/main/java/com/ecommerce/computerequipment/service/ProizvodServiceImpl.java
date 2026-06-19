@@ -7,6 +7,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.ecommerce.computerequipment.entity.Proizvod;
+import com.ecommerce.computerequipment.exceptions.ProizvodNotFoundException;
 import com.ecommerce.computerequipment.model.ProizvodResponse;
 import com.ecommerce.computerequipment.repository.ProizvodRepository;
 
@@ -24,7 +25,7 @@ public class ProizvodServiceImpl implements ProizvodService{
 	public ProizvodResponse getOneById(Integer proizvodId) {
 		System.out.println("Preuzimanje proizvoda po sa Id-em: " + proizvodId);
 		Proizvod proizvod = proizvodRepository.findById(proizvodId)
-				.orElseThrow(()->new RuntimeException("Proizvod ne postoji!"));
+				.orElseThrow(()->new ProizvodNotFoundException("Proizvod ne postoji!"));
 		ProizvodResponse proizvodResponse = convertToProizvodResponse(proizvod);
 		System.out.println("Proizvod je preuzet!");
 		return proizvodResponse;
