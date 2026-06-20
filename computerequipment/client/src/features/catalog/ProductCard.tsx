@@ -6,10 +6,16 @@ import {
   CardContent,
   CardHeader,
   CardMedia,
+  CircularProgress,
   Typography,
 } from "@mui/material";
 import type { Proizvod } from "../../app/models/proizvod";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { useAppDispatch } from "../../app/store/configureStore";
+import agent from "../../app/api/agent";
+import { LoadingButton } from "@mui/lab";
+import { setBasket } from "../basket/basketSlice";
 
 interface Props {
   proizvod: Proizvod;
@@ -30,6 +36,19 @@ export default function ProductCard({ proizvod }: Props) {
       currency: 'RSD',
       minimumFractionDigits: 2
     }).format(cena);
+  }
+
+  const [loading, setLoading] = useState(false);
+  const dispatch = useAppDispatch();
+  function addItem(){
+    setLoading(true);
+    agent.Basket.addItem(proizvod, dispatch)
+    .then(response=>{
+      console.log('New basket: ', response.basket);
+      dispatch(setBasket(response.basket))
+    })
+    .catch(error=>console.log(error))
+    .finally(()=>setLoading(false));
   }
   return (
     <Card>
@@ -58,7 +77,14 @@ export default function ProductCard({ proizvod }: Props) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Dodaj u korpu</Button>
+        <LoadingButton
+          loading={loading}
+          onClick={addItem}
+          size="small"
+          startIcon={loading ? <CircularProgress size={20} color="inherit" /> : null}
+        >
+          Add to cart
+        </LoadingButton>
         <Button component={Link} to={`/store/${proizvod.id}`} size="small">Pregled</Button>
       </CardActions>
     </Card>

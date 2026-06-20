@@ -85,7 +85,7 @@ public class BasketServiceImpl implements BasketService{
 				.naziv(basketItem.getNaziv())
 				.opis(basketItem.getOpis())
 				.cena(basketItem.getCena())
-				.urlSLike(basketItem.getUrlSLike())
+				.urlSlike(basketItem.getUrlSlike())
 				.markaProizvoda(basketItem.getMarkaProizvoda())
 				.tipProizvoda(basketItem.getTipProizvoda())
 				.kolicina(basketItem.getKolicina())

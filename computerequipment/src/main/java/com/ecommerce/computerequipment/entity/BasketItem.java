@@ -14,7 +14,7 @@ public class BasketItem {
 	private String naziv;
 	private String opis;
 	private Long cena;
-	private String urlSLike;
+	private String urlSlike;
 	private String markaProizvoda;
 	private String tipProizvoda;
 	private Integer kolicina;

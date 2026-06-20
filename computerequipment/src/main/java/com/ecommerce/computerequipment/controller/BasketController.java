@@ -1,5 +1,6 @@
 package com.ecommerce.computerequipment.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -60,6 +61,9 @@ public class BasketController {
 	}
 	
 	private List<BasketItem> mapBasketItemResponsesToEntities(List<BasketItemResponse> itemResponses){
+		if(itemResponses == null) {
+			return new ArrayList<>();
+		}
 		return itemResponses.stream()
 				.map(this::convertToBasketItemEntity)
 				.collect(Collectors.toList());
@@ -71,7 +75,7 @@ public class BasketController {
 		basketItem.setNaziv(itemResponse.getNaziv());
 		basketItem.setOpis(itemResponse.getOpis());
 		basketItem.setCena(itemResponse.getCena());
-		basketItem.setUrlSLike(itemResponse.getUrlSLike());
+		basketItem.setUrlSlike(itemResponse.getUrlSlike());
 		basketItem.setMarkaProizvoda(itemResponse.getMarkaProizvoda());
 		basketItem.setTipProizvoda(itemResponse.getTipProizvoda());
 		basketItem.setKolicina(itemResponse.getKolicina());
