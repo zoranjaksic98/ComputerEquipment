@@ -116,9 +116,15 @@ const Basket = {
       }
 }
 
+const Account = {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    login: (values: any) => request.post('auth/login', values)
+}
+
 const agent = {
     Store,
-    Basket
+    Basket,
+    Account
 }
 
 export default agent;
