@@ -66,6 +66,7 @@ export const accountSlice = createSlice({
             state.user = null;
             state.error = null;
             localStorage.removeItem('user');
+            localStorage.removeItem('basket');
             router.navigate('/');
         }, clearError:(state)=>{
             state.error = null;
