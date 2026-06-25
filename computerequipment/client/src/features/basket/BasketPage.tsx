@@ -1,9 +1,11 @@
-import { IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Box, Button, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 import agent from "../../app/api/agent";
 import { Add, Remove } from '@mui/icons-material';
 import type { BasketItem } from "../../app/models/basket";
+import BasketSummary from "./BasketSummary";
+import { Link } from "react-router-dom";
 
 export default function BasketPage(){
     const {basket} = useAppSelector(state=>state.basket);
@@ -42,6 +44,7 @@ export default function BasketPage(){
     };
     if(!basket || basket.items.length === 0) return <Typography variant="h3">Vasa korpa je prazna. Dodajte proizvode!</Typography>
     return (
+        <>
         <TableContainer component={Paper}>
             <Table>
                 <TableHead>
@@ -84,5 +87,17 @@ export default function BasketPage(){
                 </TableBody>
             </Table>
         </TableContainer>
+        <Box sx={{ mx: 2, p: 2, bgcolor: "background.paper", borderRadius: 4 }}>
+            <BasketSummary/>
+            <Button
+                component={Link}
+                to='/checkout'
+                variant='contained'
+                size='large'
+                fullWidth>
+                    Checkout
+            </Button>
+        </Box>
+        </>
     );
 }

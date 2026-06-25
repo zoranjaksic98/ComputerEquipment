@@ -64,16 +64,16 @@ const Basket = {
             console.error("Greska prilikom dobavljanja korpe. ", error);
         }
     },
-    addItem: async(product: Proizvod, dispatch: Dispatch)=>{
-        try{
-            const result = await basketService.addItemToBasket(product, 1, dispatch);
-            console.log(result);
-            return result;
-        } catch(error){
-            console.log("Greska prilikom dodavanja novog proizvoda u korpu. ", error);
-            throw error;
-        }
-    },
+    addItem: async(product: Proizvod, quantity: number = 1, dispatch: Dispatch)=>{
+    try{
+        const result = await basketService.addItemToBasket(product, quantity, dispatch);
+        console.log(result);
+        return result;
+    } catch(error){
+        console.log("Greska prilikom dodavanja novog proizvoda u korpu. ", error);
+        throw error;
+    }
+},
     removeItem: async (itemId: number, dispatch: Dispatch)=> {
         try{
             await basketService.remove(itemId, dispatch);
@@ -121,10 +121,20 @@ const Account = {
     login: (values: any) => request.post('auth/login', values)
 }
 
+const Orders ={
+    list:() => request.get('orders'),
+    fetch:(id:number) => request.get(`orders/${id}`),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    create:(values:any) => {
+        
+        request.post('orders', values)}
+}
+
 const agent = {
     Store,
     Basket,
-    Account
+    Account,
+    Orders
 }
 
 export default agent;

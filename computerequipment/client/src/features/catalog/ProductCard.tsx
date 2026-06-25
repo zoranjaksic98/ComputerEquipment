@@ -42,10 +42,8 @@ export default function ProductCard({ proizvod }: Props) {
   const dispatch = useAppDispatch();
   function addItem(){
     setLoading(true);
-    agent.Basket.addItem(proizvod, dispatch)
-    .then(response=>{
-      console.log('New basket: ', response.basket);
-      dispatch(setBasket(response.basket))
+    agent.Basket.addItem(proizvod, 1, dispatch)
+    .then(()=>{
     })
     .catch(error=>console.log(error))
     .finally(()=>setLoading(false));

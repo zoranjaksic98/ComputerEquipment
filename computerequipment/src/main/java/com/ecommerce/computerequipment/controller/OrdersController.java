@@ -17,11 +17,13 @@ import com.ecommerce.computerequipment.model.OrderDTO;
 import com.ecommerce.computerequipment.model.OrderResponse;
 import com.ecommerce.computerequipment.service.OrderService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import org.springframework.web.bind.annotation.RequestBody;
 import jakarta.validation.Valid;
+import lombok.extern.log4j.Log4j2;
 
 @RestController
 @RequestMapping("/api/orders")
+@Log4j2
 public class OrdersController {
 	
 	private final OrderService orderService;
@@ -54,6 +56,7 @@ public class OrdersController {
 	
 	@PostMapping
 	public ResponseEntity<Integer> createOrder(@Valid @RequestBody OrderDTO orderDTO){
+		log.info("Primljen zahtev za kreiranje porudzbine, idKorpe: {}", orderDTO.getIdKorpe());
 		Integer orderId = orderService.createOrder(orderDTO);
 		if(orderId != null) {
 			return ResponseEntity.status(HttpStatus.CREATED).body(orderId);
